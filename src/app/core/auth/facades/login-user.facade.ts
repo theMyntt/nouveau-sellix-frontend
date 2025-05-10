@@ -1,0 +1,29 @@
+import { inject, Injectable } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { AuthTokenStorageService } from '../services/auth-token-storage.service';
+import { CurrentUserLoggedStore } from '../stores/current-user-logged-store.store';
+import { pipe, switchMap, tap } from 'rxjs';
+import { iUserCredentials } from '../interfaces/user.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LoginUserFacade {
+  private readonly authStore = inject(CurrentUserLoggedStore)
+  private readonly authService = inject(AuthService)
+  private readonly authTokenStorageService = inject(AuthTokenStorageService)
+
+  constructor() { }
+
+  public login(payload: iUserCredentials) {
+    this.authService.login(payload).pipe(this.createSession())
+  }
+
+  private createSession() {
+    return pipe(
+      tap({ next: ({ token }) => this.authTokenStorageService.set(token) }),
+      switchMap(({ token }) => this.authService.getCurrentUserByToken(token)),
+      tap({ next: (user) => this.authStore.setUser(user) })
+    )
+  }
+}
