@@ -1,1 +1,18 @@
-<p>header works!</p>
+<mat-toolbar>
+    <p>Sellix</p>
+    <span class="spacer"></span>
+    @if (currentUserLoggedStore.isLoggedIn()) {
+        @let user = currentUserLoggedStore.getCurrentUser();
+        <button mat-flat-button [matMenuTriggerFor]="profileOptionsMenu">
+            <b>{{ user()?.name }}</b>
+        </button>
+
+        <mat-menu #profileOptionsMenu>
+            <button mat-menu-item>Editar</button>
+            <button mat-menu-item>Sair</button>
+        </mat-menu>
+    }
+    @else {
+        <button mat-flat-button routerLink="login">Fazer login</button>
+    }
+</mat-toolbar>
