@@ -4,6 +4,7 @@ import { AuthTokenStorageService } from '../services/auth-token-storage.service'
 import { CurrentUserLoggedStore } from '../stores/current-user-logged-store.store';
 import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 import { iUserCredentials } from '../interfaces/user.interface';
+import { iError } from '../interfaces/error.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,8 @@ export class LoginUserFacade {
   public login(payload: iUserCredentials) {
     return this.authService.login(payload).pipe(
       this.createSession(),
-      catchError(err => {
-        console.error(err)
-        return of(null)
+      catchError((err: iError) => {
+        return of(err)
       })
     )
   }
