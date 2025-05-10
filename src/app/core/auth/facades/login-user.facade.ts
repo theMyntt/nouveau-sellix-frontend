@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AuthTokenStorageService } from '../services/auth-token-storage.service';
 import { CurrentUserLoggedStore } from '../stores/current-user-logged-store.store';
-import { pipe, switchMap, tap } from 'rxjs';
+import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 import { iUserCredentials } from '../interfaces/user.interface';
 
 @Injectable({
@@ -16,7 +16,13 @@ export class LoginUserFacade {
   constructor() { }
 
   public login(payload: iUserCredentials) {
-    this.authService.login(payload).pipe(this.createSession())
+    return this.authService.login(payload).pipe(
+      this.createSession(),
+      catchError(err => {
+        console.error(err)
+        return of(null)
+      })
+    )
   }
 
   private createSession() {
