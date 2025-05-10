@@ -19,7 +19,7 @@ export class AuthService {
   constructor() {}
 
   public login(payload: iUserCredentials): Observable<iLoginResponse> {
-    const link = this.apiUrl + '/api/v1/login';
+    const link = this.apiUrl + '/api/v1/auth';
 
     return this.httpClient.post<iLoginResponse>(link, payload);
   }
