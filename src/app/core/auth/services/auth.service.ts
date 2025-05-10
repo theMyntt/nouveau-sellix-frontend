@@ -6,7 +6,7 @@ import {
   iUser,
   iUserCredentials,
 } from '../interfaces/user.interface';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -18,11 +18,13 @@ export class AuthService {
 
   constructor() {}
 
-  public login(payload: iUserCredentials): Observable<iUser> {
+  public login(payload: iUserCredentials): Observable<iLoginResponse> {
     const link = this.apiUrl + '/api/v1/login';
 
-    return this.httpClient
-      .post<iLoginResponse>(link, payload)
-      .pipe(map((response) => jwtDecode<iUser>(response.token)));
+    return this.httpClient.post<iLoginResponse>(link, payload);
+  }
+
+  public getCurrentUserByToken(token: string) {
+    return of(jwtDecode<iUser>(token));
   }
 }
