@@ -53,16 +53,19 @@ export class AuthComponent {
 
     this.loginFacade.login(credentials).subscribe((res) => {
       if ("message" in res) {
-        console.log(res.message)
-        this.dialog.open(ErrorDialogComponent, {
-          data: {
-            errorMessage: res.message
-          }
-        })
+        this.handleApiError(res)
         return
       }
 
       this.router.navigate(["/"])
+    })
+  }
+
+  private handleApiError(res: iError) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {
+        errorMessage: res.message
+      }
     })
   }
 }
