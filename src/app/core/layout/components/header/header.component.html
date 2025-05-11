@@ -9,7 +9,7 @@
 
         <mat-menu #profileOptionsMenu>
             <button mat-menu-item>Editar</button>
-            <button mat-menu-item>Sair</button>
+            <button mat-menu-item (click)="logout()">Sair</button>
         </mat-menu>
     }
     @else {

@@ -3,8 +3,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrentUserLoggedStore } from '../../../auth/stores/current-user-logged-store.store';
 import { iUser } from '../../../auth/interfaces/user.interface';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu'
+import { LogoutUserFacade } from '../../../auth/facades/logout-user.facade';
 
 @Component({
   selector: 'app-header',
@@ -14,4 +15,13 @@ import { MatMenuModule } from '@angular/material/menu'
 })
 export class HeaderComponent{
   protected readonly currentUserLoggedStore = inject(CurrentUserLoggedStore);
+  
+  private readonly logoutFacade = inject(LogoutUserFacade)
+  private readonly router = inject(Router)
+
+  protected logout() {
+    this.logoutFacade.logout().subscribe(() => {
+      this.router.navigate(["/auth/login"])
+    })
+  }
 }
