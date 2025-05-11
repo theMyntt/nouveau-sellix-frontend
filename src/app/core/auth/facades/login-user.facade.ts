@@ -19,8 +19,8 @@ export class LoginUserFacade {
   public login(payload: iUserCredentials) {
     return this.authService.login(payload).pipe(
       this.createSession(),
-      catchError((err: iError) => {
-        return of(err)
+      catchError((err) => {
+        return of(err.error as iError)
       })
     )
   }
