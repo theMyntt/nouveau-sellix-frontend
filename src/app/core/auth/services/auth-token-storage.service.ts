@@ -22,7 +22,7 @@ export class AuthTokenStorageService {
     this.storage.removeItem(this.storageKey)
   }
 
-  public has(): Boolean {
-    return new Boolean(this.storage.getItem(this.storageKey))
+  public has(): boolean {
+    return this.storage.getItem(this.storageKey) != null
   }
 }
