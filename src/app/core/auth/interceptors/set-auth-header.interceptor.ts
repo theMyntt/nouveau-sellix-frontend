@@ -20,6 +20,7 @@ export const setAuthHeaderInterceptor: HttpInterceptorFn = (req, next) => {
   const goToNext = (err: any) => {
     const newToken = tokenStorage.get();
     if (!newToken) return throwError(() => err);
+    const req = addAuthHeader(newToken)
     return next(req);
   }
 
