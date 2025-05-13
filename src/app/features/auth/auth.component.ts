@@ -59,7 +59,7 @@ export class AuthComponent {
         return
       }
 
-      this.router.navigate(["/"])
+      this.router.navigate(["/home"])
     })
   }
 
