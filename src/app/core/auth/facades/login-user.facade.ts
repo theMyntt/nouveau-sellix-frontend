@@ -19,9 +19,19 @@ export class LoginUserFacade {
   public login(payload: iUserCredentials) {
     return this.authService.login(payload).pipe(
       this.createSession(),
-      catchError((err) => {
-        return of(err.error as iError)
-      })
+      catchError((err) => of(err.error as iError))
+    )
+  }
+
+  public refreshToken() {
+    if (!this.authTokenStorageService.has()) return of()
+
+    var token = this.authTokenStorageService.get()!
+
+    return this.authService.refreshToken({
+      oldToken: token
+    }).pipe(
+      this.createSession()
     )
   }
 

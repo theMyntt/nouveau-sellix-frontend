@@ -3,6 +3,7 @@ import { API_URL } from '../tokens/api.token';
 import { HttpClient } from '@angular/common/http';
 import {
   iLoginResponse,
+  iRefreshTokenPayload,
   iUser,
   iUserCredentials,
 } from '../interfaces/user.interface';
@@ -22,6 +23,11 @@ export class AuthService {
     const link = this.apiUrl + '/api/v1/auth';
 
     return this.httpClient.post<iLoginResponse>(link, payload);
+  }
+
+  public refreshToken(payload: iRefreshTokenPayload): Observable<iLoginResponse> {
+    const link = this.apiUrl + '/api/v1/auth/refresh'
+    return this.httpClient.post<iLoginResponse>(link, payload)
   }
 
   public getCurrentUserByToken(token: string) {
