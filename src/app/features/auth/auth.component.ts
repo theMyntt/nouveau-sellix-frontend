@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -11,8 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
 import { LoginUserFacade } from '../../core/auth/facades/login-user.facade';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'
-import { iUser, iUserCredentials } from '../../core/auth/interfaces/user.interface';
-import { RedirectCommand, Router } from '@angular/router';
+import { iUserCredentials } from '../../core/auth/interfaces/user.interface';
+import { Router } from '@angular/router';
 import { iError } from '../../core/auth/interfaces/error.interface';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
@@ -26,11 +27,12 @@ export class AuthComponent {
   private readonly loginFacade = inject(LoginUserFacade)
   private readonly router = inject(Router)
   private readonly dialog = inject(MatDialog)
+  private readonly fb = inject(FormBuilder)
 
   protected showPassword = signal<boolean>(false)
-  protected loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
+  protected loginForm = this.fb.group({
+    email: this.fb.control('', [Validators.required, Validators.email]),
+    password: this.fb.control('', [
       Validators.required,
       Validators.minLength(6),
     ]),
