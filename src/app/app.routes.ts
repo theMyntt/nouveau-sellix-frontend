@@ -5,6 +5,7 @@ import { AuthComponent } from './features/auth/auth.component';
 export const routes: Routes = [
     {
         path: '',
+        canActivate: [isAuthenticatedGuard],
         children: [
             {
                 path: 'home',
@@ -20,5 +21,10 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/auth/routes').then(m => m.routes)
             }
         ]
+    },
+    {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: 'home'
     }
 ];
