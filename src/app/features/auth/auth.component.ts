@@ -29,6 +29,7 @@ export class AuthComponent {
   private readonly dialog = inject(MatDialog)
   private readonly fb = inject(FormBuilder)
 
+  protected isTryingToAuth = signal<boolean>(false)
   protected showPassword = signal<boolean>(false)
   protected loginForm = this.fb.group({
     email: this.fb.control('', [Validators.required, Validators.email]),
@@ -47,6 +48,7 @@ export class AuthComponent {
       return
     }
 
+    this.isTryingToAuth.set(true)
     const { email, password } = this.loginForm.value
     const credentials: iUserCredentials = {
       email: email ?? "",
@@ -54,6 +56,7 @@ export class AuthComponent {
     }
 
     this.loginFacade.login(credentials).subscribe((res) => {
+      this.isTryingToAuth.set(false)
       if ("message" in res) {
         this.handleApiError(res)
         return

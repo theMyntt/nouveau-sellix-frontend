@@ -25,7 +25,7 @@
         <p matError>A senha é muito pequena</p>
         }
     </mat-form-field>
-    <button mat-flat-button type="submit">
+    <button mat-flat-button type="submit" [disabled]="isTryingToAuth()">
         Fazer login
     </button>
 </form>
