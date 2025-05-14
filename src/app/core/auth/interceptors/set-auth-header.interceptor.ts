@@ -24,7 +24,7 @@ export const setAuthHeaderInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  const requestWithAuth = isLoggedIn ? addAuthHeader(tokenStorage.get()!) : req;
+  const requestWithAuth = isLoggedIn() ? addAuthHeader(tokenStorage.get()!) : req;
 
   return next(requestWithAuth).pipe(
     catchError(err => {

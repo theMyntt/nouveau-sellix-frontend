@@ -9,8 +9,8 @@ export class CurrentUserLoggedStore {
 
   constructor() { }
 
-  public isLoggedIn(): boolean {
-    return this.user() != null;
+  public isLoggedIn(): Signal<boolean> {
+    return computed(() => this.user() != null)
   }
 
   public getCurrentUser(): Signal<iUser | null> {
