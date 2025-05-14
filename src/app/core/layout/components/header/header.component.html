@@ -1,10 +1,9 @@
 <mat-toolbar>
     <p>Sellix</p>
     <span class="spacer"></span>
-    @if (currentUserLoggedStore.isLoggedIn()) {
-        @let user = currentUserLoggedStore.getCurrentUser();
+    @if (isLogged) {
         <button mat-flat-button [matMenuTriggerFor]="profileOptionsMenu">
-            <b>{{ user()?.name }}</b>
+            <b>{{ user()!.name }}</b>
         </button>
 
         <mat-menu #profileOptionsMenu>

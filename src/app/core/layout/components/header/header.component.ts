@@ -14,10 +14,12 @@ import { LogoutUserFacade } from '../../../auth/facades/logout-user.facade';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent{
-  protected readonly currentUserLoggedStore = inject(CurrentUserLoggedStore);
-  
+  private readonly currentUserLoggedStore = inject(CurrentUserLoggedStore);
   private readonly logoutFacade = inject(LogoutUserFacade)
   private readonly router = inject(Router)
+
+  protected readonly user = this.currentUserLoggedStore.getCurrentUser()
+  protected readonly isLogged = this.currentUserLoggedStore.isLoggedIn()
 
   protected logout() {
     this.logoutFacade.logout().subscribe(() => {
